@@ -10,6 +10,7 @@ namespace DungeonExplorer
 
         public Game()
         {
+            player = new Player("Harrisonsmells", 100);
             // Initialize the game with one room and one player
 
         }
@@ -20,6 +21,8 @@ namespace DungeonExplorer
             while (playing)
             {
                 // Code your playing logic here
+                player.PickUpItem("Harrisons dedeorant");
+                string test = player.InventoryContents();
             }
         }
     }
