@@ -37,6 +37,9 @@ namespace DungeonExplorer
                     Console.WriteLine("\nYou picked up the health potion");
                     player.PickUpItem("Health potion (50HP)");
                     PlayerStats();
+
+                    // Checks to see if the potion exists in the players inventory
+                    Debug.Assert(player.InventoryContents().Contains("Health potion (50HP)"));
                 }
                 // If the players doesn't pickup the potion, it dissapears behind
                 else if (response == "no")
@@ -57,17 +60,20 @@ namespace DungeonExplorer
                     response2.ToLower();
 
                     // If they would like to use it, consumes the potion and adds 50 health to the player
-                    if (response2 == "yes")
+                    switch(response2)
                     {
-                        Console.WriteLine("\nYou have used the health potion");
-                        player.Health = player.Health + 50;
-                        player.RemoveItem("Health potion (50HP)");
-                        PlayerStats();
-                    }
-                    // If they don't want to use it, adds it to their inventory
-                    else
-                    {
-                        Console.WriteLine("You left the item in your inventory");
+                        case "yes":
+                            Console.WriteLine("\nYou have used the health potion");
+                            player.Health = player.Health + 50;
+                            player.RemoveItem("Health potion (50HP)");
+                            PlayerStats();
+                            break;
+                        case "no":
+                            Console.WriteLine("You left the item in your inventory");
+                            break;
+                        default:
+                            Console.WriteLine("You left the item in your inventory");
+                            break;
                     }
                 }
                 // End of the game
