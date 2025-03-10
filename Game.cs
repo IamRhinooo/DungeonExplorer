@@ -17,25 +17,27 @@ namespace DungeonExplorer
         }
         public void Start()
         {
-            // start of the game
+            // Starts the game
             bool playing = true;
 
             while (playing)
             {
-                // Code your playing logic here
-
+                // Displays description for the room and the initial player stats
                 Console.WriteLine(currentRoom.GetDescription());
                 PlayerStats();
 
+                // Asks if they would like to pickup the health potion
                 Console.WriteLine("Would you like to pickup the health potion at the door? yes or no\n");
                 string response = Console.ReadLine();
 
+                // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
                 {
                     Console.WriteLine("\nYou picked up the health potion");
                     player.PickUpItem("Health potion (50HP)");
                     PlayerStats();
                 }
+                // If the players doesn't pickup the potion, it dissapears behind
                 else if (response == "no")
                 {
                     Console.WriteLine("\nYou left the health potion behind");
@@ -45,10 +47,14 @@ namespace DungeonExplorer
                     Console.WriteLine("\nYou left the health potion behind");
                 }
 
+                // If they pick it up, they are then asked if they want to use it
                 if (player.InventoryContents().Contains("Health potion (50HP)")) 
 
+                // This asks the question to if they would like to use the potion
                 { Console.WriteLine("You have picked up the health potion. Would you like to use it? yes or no\n");
                     string response2 = Console.ReadLine();
+
+                    // If they would like to use it, consumes the potion and adds 50 health to the player
                     if (response2 == "yes")
                     {
                         Console.WriteLine("\nYou have used the health potion");
@@ -56,6 +62,7 @@ namespace DungeonExplorer
                         player.RemoveItem("Health potion (50HP)");
                         PlayerStats();
                     }
+                    // If they don't want to use it, adds it to their inventory
                     else
                     {
                         Console.WriteLine("You left the item in your inventory");
@@ -66,7 +73,7 @@ namespace DungeonExplorer
             }
         }
         private void PlayerStats()
-        {   // Add the player stats to the console
+        {   // Adds the players stats 
             Console.WriteLine("\n" + "Name: " + player.Name);
             Console.WriteLine("Health: " + player.Health + " HP");
             Console.WriteLine("Inventory: " + player.InventoryContents() + "\n");

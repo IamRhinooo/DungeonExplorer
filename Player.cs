@@ -13,14 +13,17 @@ namespace DungeonExplorer
             Name = name;
             Health = health;
         }
+        // Picks up items and adds them to inventory
         public void PickUpItem(string item)
         {
             inventory.Add(item);
         }
+        // Removes items from inventory when used
         public void RemoveItem(string item)
         {
             inventory.Remove(item);
         }
+        // Contains all items in inventory
         public string InventoryContents()
         {
             return string.Join(", ", inventory);

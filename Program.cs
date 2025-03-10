@@ -8,6 +8,7 @@ namespace DungeonExplorer
 {
     internal class Program
     {
+        // Starts and ends the game
         static void Main(string[] args)
         {
             Game game = new Game();
