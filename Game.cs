@@ -12,7 +12,7 @@ namespace DungeonExplorer
         public Game()
         {
             // Initialisation of the game with one room and one player
-            currentRoom = new Room("You open the doors to the dungeon of tales.\nThere is a potion led on the floor infront of you and a closed door directly infront of you.\nIt seems the doors to your left and to your right have been barricaded.");
+            currentRoom = new Room("You open the doors to the dungeon of tales.\nThere was a potion left behind on the floor infront of you and a closed door directly infront of you.\nIt seems the doors to your left and to your right have been barricaded.");
             player = new Player("Gerrard", 50);
         }
         public void Start()
@@ -29,7 +29,7 @@ namespace DungeonExplorer
                 // Asks if they would like to pickup the health potion
                 Console.WriteLine("Would you like to pickup the health potion at the door? yes or no\n");
                 string response = Console.ReadLine();
-                response.ToLower();
+                response.ToLower(); 
 
                 // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
