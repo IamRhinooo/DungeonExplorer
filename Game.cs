@@ -29,6 +29,7 @@ namespace DungeonExplorer
                 // Asks if they would like to pickup the health potion
                 Console.WriteLine("Would you like to pickup the health potion at the door? yes or no\n");
                 string response = Console.ReadLine();
+                response.ToLower();
 
                 // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
@@ -53,6 +54,7 @@ namespace DungeonExplorer
                 // This asks the question to if they would like to use the potion
                 { Console.WriteLine("You have picked up the health potion. Would you like to use it? yes or no\n");
                     string response2 = Console.ReadLine();
+                    response2.ToLower();
 
                     // If they would like to use it, consumes the potion and adds 50 health to the player
                     if (response2 == "yes")
