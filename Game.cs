@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Media;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
@@ -9,12 +10,13 @@ namespace DungeonExplorer
     {
         private Player player;
         private Room currentRoom;
-
+        private Check check;
         public Game()
         {
             // Initialisation of the game with one room and one player
             currentRoom = new Room("You open the doors to the dungeon of tales.\nThere was a potion left behind on the floor infront of you and a closed door directly infront of you.\nIt seems the doors to your left and to your right have been barricaded.");
             player = new Player("Gerrard", 50);
+            check = new Check();
         }
         public void Start()
         {
@@ -32,15 +34,19 @@ namespace DungeonExplorer
                 string response = Console.ReadLine();
                 response.ToLower(); 
 
+                
+
                 // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
                 {
-                    Console.WriteLine("\nYou picked up the health potion");
                     player.PickUpItem("Health potion (50HP)");
-                    PlayerStats();
 
                     // Checks to see if the potion exists in the players inventory
-                    Debug.Assert(player.InventoryContents().Contains("Health potion (50HP)"));
+                    bool result = check.IsItemInInventory(player, "Health potion (50HP)");
+                    Debug.Assert(result == true);
+
+                    Console.WriteLine("\nYou picked up the health potion");
+                    PlayerStats();
                 }
                 // If the players doesn't pickup the potion, it dissapears behind
                 else if (response == "no")
