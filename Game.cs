@@ -34,8 +34,6 @@ namespace DungeonExplorer
                 string response = Console.ReadLine();
                 response.ToLower(); 
 
-                
-
                 // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
                 {
