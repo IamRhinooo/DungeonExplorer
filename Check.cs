@@ -2,7 +2,7 @@
 
 namespace DungeonExplorer
 {	
-    public class Check
+    public class Testing
     {
         public bool IsItemInInventory(Player player, string item)
         {

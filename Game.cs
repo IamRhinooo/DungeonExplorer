@@ -10,13 +10,13 @@ namespace DungeonExplorer
     {
         private Player player;
         private Room currentRoom;
-        private Check check;
+        private Testing testing;
         public Game()
         {
             // Initialisation of the game with one room and one player
             currentRoom = new Room("You open the doors to the dungeon of tales.\nThere was a potion left behind on the floor infront of you and a closed door directly infront of you.\nIt seems the doors to your left and to your right have been barricaded.");
             player = new Player("Gerrard", 50);
-            check = new Check();
+            testing = new Testing();
         }
         public void Start()
         {
@@ -40,7 +40,7 @@ namespace DungeonExplorer
                     player.PickUpItem("Health potion (50HP)");
 
                     // Checks to see if the potion exists in the players inventory
-                    bool result = check.IsItemInInventory(player, "Health potion (50HP)");
+                    bool result = testing.IsItemInInventory(player, "Health potion (50HP)");
                     Debug.Assert(result == true);
 
                     Console.WriteLine("\nYou picked up the health potion");
