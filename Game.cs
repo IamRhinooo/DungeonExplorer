@@ -11,11 +11,12 @@ namespace DungeonExplorer
         private Player player;
         private Room currentRoom;
         private Testing testing;
+        private Inventory inventory = new Inventory();
         public Game()
         {
             // Initialisation of the game with one room and one player
             currentRoom = new Room("You open the doors to the dungeon of tales.\nThere was a potion left behind on the floor infront of you and a closed door directly infront of you.\nIt seems the doors to your left and to your right have been barricaded.");
-            player = new Player("Gerrard", 50);
+            player = new Player("Gerrard", 50, 10);
             testing = new Testing();
         }
         public void Start()
@@ -37,10 +38,10 @@ namespace DungeonExplorer
                 // If the player picks up the potion, adds to inventory and displays the potion in inventory
                 if (response == "yes")
                 {
-                    player.PickUpItem("Health potion (50HP)");
+                    inventory.PickUpItem("Health potion (50HP)");
 
                     // Checks to see if the potion exists in the players inventory
-                    bool result = testing.IsItemInInventory(player, "Health potion (50HP)");
+                    bool result = testing.IsItemInInventory(inventory, "Health potion (50HP)");
                     Debug.Assert(result == true);
 
                     Console.WriteLine("\nYou picked up the health potion");
@@ -57,7 +58,7 @@ namespace DungeonExplorer
                 }
 
                 // If they pick it up, they are then asked if they want to use it
-                if (player.InventoryContents().Contains("Health potion (50HP)")) 
+                if (inventory.InventoryContents().Contains("Health potion (50HP)")) 
 
                 // This asks the question to if they would like to use the potion
                 { Console.WriteLine("You have picked up the health potion. Would you like to use it? yes or no\n");
@@ -70,7 +71,7 @@ namespace DungeonExplorer
                         case "yes":
                             Console.WriteLine("\nYou have used the health potion");
                             player.Health = player.Health + 50;
-                            player.RemoveItem("Health potion (50HP)");
+                            inventory.RemoveItem("Health potion (50HP)");
                             PlayerStats();
                             break;
                         case "no":
@@ -89,7 +90,7 @@ namespace DungeonExplorer
         {   // Adds the players stats 
             Console.WriteLine("\n" + "Name: " + player.Name);
             Console.WriteLine("Health: " + player.Health + " HP");
-            Console.WriteLine("Inventory: " + player.InventoryContents() + "\n");
+            Console.WriteLine("Inventory: " + inventory.InventoryContents() + "\n");
         }
     }
 }

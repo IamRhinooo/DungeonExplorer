@@ -4,9 +4,9 @@ namespace DungeonExplorer
 {	
     public class Testing
     {
-        public bool IsItemInInventory(Player player, string item)
+        public bool IsItemInInventory(Inventory inventory, string item)
         {
-            return player.InventoryContents().Contains(item);
+            return inventory.InventoryContents().Contains(item);
         }
     }
 }

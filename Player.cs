@@ -6,27 +6,14 @@ namespace DungeonExplorer
     {
         public string Name { get; private set; }
         public int Health { get; set; }
-        private List<string> inventory = new List<string>();
+        public int Attack { get; set; }
 
-        public Player(string name, int health) 
+
+        public Player(string name, int health, int attack) 
         {
             Name = name;
             Health = health;
-        }
-        // Picks up items and adds them to inventory
-        public void PickUpItem(string item)
-        {
-            inventory.Add(item);
-        }
-        // Removes items from inventory when used
-        public void RemoveItem(string item)
-        {
-            inventory.Remove(item);
-        }
-        // Contains all items in inventory
-        public string InventoryContents()
-        {
-            return string.Join(", ", inventory);
+            Attack = attack;
         }
     }
 }
