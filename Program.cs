@@ -11,7 +11,8 @@ namespace DungeonExplorer
         // Starts and ends the game
         static void Main(string[] args)
         {
-            Game game = new Game();
+            GameMap map = new GameMap();
+            Game game = new Game(map);
             game.Start();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

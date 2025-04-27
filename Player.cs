@@ -8,12 +8,14 @@ namespace DungeonExplorer
         public int Health { get; set; }
         public int Attack { get; set; }
 
-
+        public Weapon EquippedWeapon { get; set; }
         public Player(string name, int health, int attack) 
         {
             Name = name;
             Health = health;
             Attack = attack;
+
+            EquippedWeapon = null;
         }
     }
 }

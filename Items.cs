@@ -17,13 +17,20 @@ namespace DungeonExplorer
             Description = description;
         }
     }
-
     public class Weapon : Items
-{
+    {
         public int AttackPower { get; set; }
         public Weapon(string name, string description, int attackPower) : base(name, description)
         {
-        AttackPower = attackPower;
+            AttackPower = attackPower;
+        }
+    }
+    public class Potion : Items
+    {
+        public int Health { get; set; }
+        public Potion(string name, string description, int health) : base(name, description)
+        {
+            Health = health;
         }
     }
 }

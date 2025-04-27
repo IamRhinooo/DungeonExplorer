@@ -8,22 +8,32 @@ namespace DungeonExplorer
 {
     public class Inventory
     {
-        private List<string> inventory = new List<string>();
+        private List<Items> inventory = new List<Items>();
 
         // Picks up items and adds them to inventory
-        public void PickUpItem(string item)
+        public void PickUpItem(Items item)
         {
             inventory.Add(item);
         }
         // Removes items from inventory when used
-        public void RemoveItem(string item)
+        public void RemoveItem(Items item)
         {
             inventory.Remove(item);
         }
         // Contains all items in inventory
         public string InventoryContents()
         {
-            return string.Join(", ", inventory);
+            return string.Join(", ", inventory.Select(i => i.Name));
+        }
+        // Filters items in inventory by type - weapons
+        public IEnumerable<Weapon> GetWeapons()
+        {
+            return inventory.OfType<Weapon>();
+        }
+        // Filters items in inventory by type - potions
+        public IEnumerable<Potion> GetPotions()
+        {
+            return inventory.OfType<Potion>();
         }
     }
 }
