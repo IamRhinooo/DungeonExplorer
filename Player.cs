@@ -7,7 +7,6 @@ namespace DungeonExplorer
         public string Name { get; private set; }
         public int Health { get; set; }
         public int Attack { get; set; }
-
         public Weapon EquippedWeapon { get; set; }
         public Player(string name, int health, int attack) 
         {

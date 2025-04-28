@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Media;
 using System.Runtime.CompilerServices;
@@ -27,61 +28,96 @@ namespace DungeonExplorer
             switch (direction.ToLower())
             {
                 case "left":
+                    if (currentRoom.Monster != null)
+                    {
+                        Console.WriteLine("You cannot leave the room while a monster is present. You must defeat it first.");
+                        return;
+                    }
                     if (currentRoom.LeftRoom != null)
                     {
                         currentRoom = currentRoom.LeftRoom;
-                        Console.WriteLine("You have entered the new room\n");
+                        Console.WriteLine("\nYou have entered the new room\n");
                         Console.WriteLine(currentRoom.GetDescription());
 
-                        if (currentRoom.Item != null)
+                        while (currentRoom.Items.Count > 0)
                         {
-                            Console.WriteLine("Would you like to pick it up? (yes/no)");
+                            Console.WriteLine("The items in this room include: ");
+                            foreach (var item in currentRoom.Items)
+                            {
+                                Console.WriteLine($"- {item.Name}");
+                            }
+
+                            Console.WriteLine("\nWould you like to pick up an item? (yes/no)\n");
                             string response = Console.ReadLine().ToLower();
                             if (response == "yes")
                             {
-                                string itemName = currentRoom.Item.Name;
-                                inventory.PickUpItem(currentRoom.Item);
-                                currentRoom.Item = null;
-                                Console.WriteLine($"You picked up the {itemName}.");
+                                Console.WriteLine("\nWhich item would you like to pick up? (Enter the name)\n");
+                                string itemName = Console.ReadLine();
+                                var selectedItem = currentRoom.Items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                                if (selectedItem != null)
+                                {
+                                    inventory.PickUpItem(selectedItem);
+                                    currentRoom.Items.Remove(selectedItem);
+                                    Console.WriteLine($"\nYou picked up the {selectedItem.Name}.\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nItem not found in the room.");
+                                }
                             }
-                            else
+                            if (response == "no")
                             {
-                                Console.WriteLine("You left the item behind.");
+                                Console.WriteLine("\nYou left the item in the room.\n");
+                                break; 
+                            }
+                            if (response != "yes" && response != "no")
+                            {
+                                Console.WriteLine("\nInvalid response, please check above!\n");
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("You can't go that way.");
+                        Console.WriteLine("\nYou can't go that way.");
                     }
                     break;
                 case "right":
+                    if (currentRoom.Monster != null)
+                    {
+                        Console.WriteLine("You cannot leave the room while a monster is present. You must defeat it first.");
+                        return;
+                    }
                     if (currentRoom.RightRoom != null)
                     {
                         currentRoom = currentRoom.RightRoom;
-                        Console.WriteLine("You have entered the new room\n");
+                        Console.WriteLine("\nYou have entered the new room\n");
                         Console.WriteLine(currentRoom.GetDescription());
 
-                        if (currentRoom.Item != null)
+                        while (currentRoom.Items.Count > 0)
                         {
-                            Console.WriteLine("Would you like to pick it up? (yes/no)");
+                            Console.WriteLine("Would you like to pick up an item? (yes/no)\n");
                             string response = Console.ReadLine().ToLower();
                             if (response == "yes")
                             {
-                                string itemName = currentRoom.Item.Name;
-                                inventory.PickUpItem(currentRoom.Item);
-                                currentRoom.Item = null;
-                                Console.WriteLine($"You picked up the {itemName}.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("You left the item behind.");
+                                Console.WriteLine("\nWhich item would you like to pick up? (Enter the name)\n");
+                                string itemName = Console.ReadLine();
+                                var selectedItem = currentRoom.Items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                                if (selectedItem != null)
+                                {
+                                    inventory.PickUpItem(selectedItem);
+                                    currentRoom.Items.Remove(selectedItem);
+                                    Console.WriteLine($"\nYou picked up the {selectedItem.Name}.\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nItem not found in the room.");
+                                }
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("You can't go that way.");
+                        Console.WriteLine("\nYou can't go that way.");
                     }
                     break;
                 case "stats":
@@ -90,8 +126,21 @@ namespace DungeonExplorer
                 case "equip":
                     EquipItem();
                     break;
+                case "use":
+                    UseItem();
+                    break;
+                case "attack":
+                    if (currentRoom.Monster != null)
+                    {
+                        Combat(currentRoom.Monster);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThere is no monster to attack in this room.\n");
+                    }
+                    break;
                 default:
-                    Console.WriteLine("Invalid response, please check above!");
+                    Console.WriteLine("\nInvalid response, please check above!");
                     break;
             }
         }
@@ -102,7 +151,7 @@ namespace DungeonExplorer
 
             while (playing)
             {
-                Console.WriteLine("What would you like to do? (left/right/stats/exit)\n");
+                Console.WriteLine("What would you like to do? (left/right/attack/stats/use/equip/exit)\n");
                 string input = Console.ReadLine();
                 input = input.ToLower();
 
@@ -120,8 +169,8 @@ namespace DungeonExplorer
             Console.WriteLine("\n" + "Name: " + player.Name);
             Console.WriteLine("Health: " + player.Health + " HP");
             Console.WriteLine("Attack: " + player.Attack);
-            Console.WriteLine("Inventory: " + inventory.InventoryContents() + "\n");
-            Console.WriteLine("Equipped weapon: ", player.EquippedWeapon);
+            Console.WriteLine("Inventory: " + inventory.InventoryContents());
+            Console.WriteLine("Equipped weapon: " + (player.EquippedWeapon != null ? player.EquippedWeapon.Name : "None") + "\n");
         }
         private void EquipItem()
         {
@@ -129,10 +178,10 @@ namespace DungeonExplorer
             var weapons = inventory.GetWeapons().ToList();
             if (weapons.Count() == 0)
             {
-                Console.WriteLine("You have no weapons in your inventory to equip.");
+                Console.WriteLine("\nYou have no weapons in your inventory to equip.");
                 return;
             }
-            Console.WriteLine("Which item would you like to equip? \n");
+            Console.WriteLine("\nWhich weapon would you like to equip? \n");
             foreach (var weapon in weapons)
             {
                 Console.WriteLine($"- {weapon.Name} - Attack Power: {weapon.AttackPower}");
@@ -141,8 +190,16 @@ namespace DungeonExplorer
             var selectedWeapon = inventory.GetWeapons().FirstOrDefault(w => w.Name.Equals(weaponName, StringComparison.OrdinalIgnoreCase));
             if (selectedWeapon != null)
             {
+                if (player.EquippedWeapon != null)
+                {
+                    Console.WriteLine($"You have unequipped the {player.EquippedWeapon.Name}.\n");
+                    player.Attack -= player.EquippedWeapon.AttackPower; 
+                    inventory.PickUpItem(player.EquippedWeapon);
+                }
+
+                Console.WriteLine($"\nYou have equipped the {selectedWeapon.Name}.\n");
+                inventory.RemoveItem(selectedWeapon);
                 player.EquippedWeapon = selectedWeapon;
-                Console.WriteLine($"You have equipped the {selectedWeapon.Name}.\n");
                 player.Attack += selectedWeapon.AttackPower; 
             }
             else
@@ -156,14 +213,15 @@ namespace DungeonExplorer
             var potions = inventory.GetPotions().ToList();
             if (potions.Count() == 0)
             {
-                Console.WriteLine("You have no potions in your inventory to use.");
+                Console.WriteLine("\nYou have no potions in your inventory to use.");
                 return;
             }
-            Console.WriteLine("Which potion would you like to use? \n");
+            Console.WriteLine("Your inventory contains the following potions: \n");
             foreach (var potion in potions)
             {
-                Console.WriteLine($"- {potion.Name} - Healing Amount: {potion.Health}");
+                Console.WriteLine($"- {potion.Name} - Healing Amount: {potion.Health}\n");
             }
+            Console.WriteLine("Which potion would you like to use? \n");
             string potionName = Console.ReadLine();
             var selectedPotion = inventory.GetPotions().FirstOrDefault(p => p.Name.Equals(potionName, StringComparison.OrdinalIgnoreCase));
             if (selectedPotion != null)
@@ -171,10 +229,75 @@ namespace DungeonExplorer
                 player.Health += selectedPotion.Health;
                 inventory.RemoveItem(selectedPotion);
                 Console.WriteLine($"You have used the {selectedPotion.Name}. Your health is now {player.Health} HP.\n");
+
+                if (player.Health > 100)
+                {
+                    player.Health = 100; // Cap the health at 100
+                    Console.WriteLine("You have reached max health.");
+                }
             }
             else
             {
                 Console.WriteLine("Item not found in inventory.");
+            }
+        }
+        public void Combat(Monsters monster)
+        {
+            Console.WriteLine($"\nA {monster.Name} has been found. It has {monster.Health} HP.");
+
+            while (player.Health > 0 && monster.Health > 0)
+            {
+                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("1. Attack");
+                Console.WriteLine("2. Use Potion");
+
+                string choice = Console.ReadLine();
+                if (choice == "1")
+                {
+                    monster.Health -= player.Attack;
+                    Console.WriteLine($"You attack the {monster.Name} for {player.Attack} damage. It has {monster.Health} HP left.");
+                    if (monster.Health > 0)
+                    {
+                        monster.Attack(player);
+                    }
+                }
+                else if (choice == "2")
+                {
+                    if (inventory.GetPotions().Count() == 0)
+                    {
+                        Console.WriteLine("\nYou have no potions to use.\n");
+                        continue;
+                    }
+                    if (inventory.GetPotions().Count() > 0)
+                    {
+                        UseItem();
+                    }
+                }
+                else if (choice == "3")
+                {
+                    Console.WriteLine("good turn");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice. Please choose again.");
+                    continue;
+                }
+                if (monster.Health <= 0)
+                {
+                    Console.WriteLine($"\nYou have defeated the {monster.Name}!");
+                    currentRoom.Monster = null;
+                    Console.WriteLine($"You have {player.Health} HP left.\n");
+                }
+                if (monster.Health > 0 && player.Health > 0)
+                {
+                    monster.Attack(player);
+                    Console.WriteLine($"You have {player.Health} HP left.\n");
+                }
+                if (player.Health <= 0)
+                {
+                    Console.WriteLine("You have been defeated! Game over.");
+                    System.Environment.Exit(0); 
+                }
             }
         }
     }

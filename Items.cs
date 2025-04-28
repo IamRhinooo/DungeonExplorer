@@ -24,6 +24,10 @@ namespace DungeonExplorer
         {
             AttackPower = attackPower;
         }
+        public override string ToString()
+        {
+            return Name;
+        } 
     }
     public class Potion : Items
     {

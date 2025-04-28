@@ -1,4 +1,7 @@
-﻿namespace DungeonExplorer
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace DungeonExplorer
 {
     public class Room
     {
@@ -6,16 +9,26 @@
 
         public Room LeftRoom { get; set; }
         public Room RightRoom { get; set; }
-        public Items Item { get; set; }
+        public List<Items> Items { get; set; }
+        public Monsters Monster { get; set; }
 
-        public Room(string description, Items item = null)
+        public Room(string description, Monsters monster = null, params Items[] items)
         {
             this.description = description;
-            Item = item; 
+            Monster = monster;
+            Items = new List<Items>(items); 
         }
         public string GetDescription()
         {
-            return description + (Item != null ? $"\nThere lies a {Item.Name} on the floor." : "");
+            var itemsDescription = Items != null && Items.Count > 0
+                ? "The following items remain on the floor: " + string.Join(", ", Items.Select(i => i.Name)) + "\n"
+                : "There are no items in this room.\n";
+
+            var monsterDescription = Monster != null
+                ? $"A {Monster.Name} lies within this room.\n"
+                : "There are no monsters in this room.\n";
+
+            return description + "\n" + itemsDescription + "\n" + monsterDescription;
         }
     }
 }

@@ -17,14 +17,16 @@ namespace DungeonExplorer
 
             var healthPotion = new Potion("Health Potion", "a mysteriously brewed potion", 20);
 
-            var room1 = new Room("testing room 1", rustySword);
-            var room2 = new Room("testing room 2", healthPotion);
-            var room3 = new Room("testing room 3");
-            var room4 = new Room("testing room 4");
-            var room5 = new Room("testing room 5");
-            var room6 = new Room("testing room 6");
-            var room7 = new Room("testing room 7");
-            var bossRoom = new Room("testing room boss room");
+            var goblin = new Monsters("Goblin", 10, 5);
+
+            var room1 = new Room("testing room 1\n", null, rustySword, healthPotion);
+            var room2 = new Room("testing room 2\n", goblin, rustySword, healthPotion);
+            var room3 = new Room("testing room 3\n");
+            var room4 = new Room("testing room 4\n");
+            var room5 = new Room("testing room 5\n");
+            var room6 = new Room("testing room 6\n");
+            var room7 = new Room("testing room 7\n");
+            var bossRoom = new Room("testing room boss room\n");
 
             room1.LeftRoom = room2;
             room1.RightRoom = room3;
