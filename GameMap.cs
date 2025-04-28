@@ -12,8 +12,10 @@ namespace DungeonExplorer
 
         public GameMap()
         {
-            var rustySword = new Weapon("Rusty Sword", "an old fashioned weapon", 5);
-            var steelSword = new Weapon("Steel Sword", "a newly forged weapon", 15);
+            var rustySword = new Weapon("Rusty Sword", "ol' fashioned and sometimes reliable", 5);
+            var ironSword = new Weapon("Steel Sword", "used a long time ago", 10);
+            var steelSword = new Weapon("Iron Sword", "a newly forged weapon", 15);
+            var titaniumSword = new Weapon("Iron Sword", "a newly forged weapon", 15);
 
             var healthPotion = new Potion("Health Potion", "a mysteriously brewed potion", 20);
 
@@ -21,8 +23,8 @@ namespace DungeonExplorer
 
             var room1 = new Room("testing room 1\n", null, rustySword, healthPotion);
             var room2 = new Room("testing room 2\n", goblin, rustySword, healthPotion);
-            var room3 = new Room("testing room 3\n");
-            var room4 = new Room("testing room 4\n");
+            var room3 = new Room("testing room 3\n", null, healthPotion, steelSword);
+            var room4 = new Room("testing room 4\n", null, steelSword);
             var room5 = new Room("testing room 5\n");
             var room6 = new Room("testing room 6\n");
             var room7 = new Room("testing room 7\n");

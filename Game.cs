@@ -10,7 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
-    internal class Game
+   internal class Game
     {
         private Player player;
         private Room currentRoom;
@@ -41,13 +41,7 @@ namespace DungeonExplorer
 
                         while (currentRoom.Items.Count > 0)
                         {
-                            Console.WriteLine("The items in this room include: ");
-                            foreach (var item in currentRoom.Items)
-                            {
-                                Console.WriteLine($"- {item.Name}");
-                            }
-
-                            Console.WriteLine("\nWould you like to pick up an item? (yes/no)\n");
+                            Console.WriteLine("Would you like to pick up an item? (yes/no)\n");
                             string response = Console.ReadLine().ToLower();
                             if (response == "yes")
                             {
@@ -184,7 +178,7 @@ namespace DungeonExplorer
             Console.WriteLine("\nWhich weapon would you like to equip? \n");
             foreach (var weapon in weapons)
             {
-                Console.WriteLine($"- {weapon.Name} - Attack Power: {weapon.AttackPower}");
+                Console.WriteLine($"- {weapon.Name} - Attack Power: {weapon.AttackPower}\n");
             }
             string weaponName = Console.ReadLine();
             var selectedWeapon = inventory.GetWeapons().FirstOrDefault(w => w.Name.Equals(weaponName, StringComparison.OrdinalIgnoreCase));
@@ -192,7 +186,7 @@ namespace DungeonExplorer
             {
                 if (player.EquippedWeapon != null)
                 {
-                    Console.WriteLine($"You have unequipped the {player.EquippedWeapon.Name}.\n");
+                    Console.WriteLine($"You have unequipped the {player.EquippedWeapon.Name}.");
                     player.Attack -= player.EquippedWeapon.AttackPower; 
                     inventory.PickUpItem(player.EquippedWeapon);
                 }

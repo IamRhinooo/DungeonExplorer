@@ -21,8 +21,8 @@ namespace DungeonExplorer
         public string GetDescription()
         {
             var itemsDescription = Items != null && Items.Count > 0
-                ? "The following items remain on the floor: " + string.Join(", ", Items.Select(i => i.Name)) + "\n"
-                : "There are no items in this room.\n";
+                ? "The following items remain on the floor: " + string.Join(", ", Items.Select(i => i.Name))
+                : "There are no items in this room.";
 
             var monsterDescription = Monster != null
                 ? $"A {Monster.Name} lies within this room.\n"
