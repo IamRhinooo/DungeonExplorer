@@ -107,6 +107,15 @@ namespace DungeonExplorer
                                     Console.WriteLine("\nItem not found in the room.");
                                 }
                             }
+                            if (response == "no")
+                            {
+                                Console.WriteLine("\nYou left the item in the room.\n");
+                                break;
+                            }
+                            if (response != "yes" && response != "no")
+                            {
+                                Console.WriteLine("\nInvalid response, please check above!\n");
+                            }
                         }
                     }
                     else
@@ -249,9 +258,10 @@ namespace DungeonExplorer
                 if (choice == "1")
                 {
                     monster.Health -= player.Attack;
-                    Console.WriteLine($"You attack the {monster.Name} for {player.Attack} damage. It has {monster.Health} HP left.");
+                    Console.WriteLine($"You attack the {monster.Name} for {player.Attack} damage.");
                     if (monster.Health > 0)
                     {
+                        Console.WriteLine($"The {monster.Name} has {monster.Health} HP left.");
                         monster.Attack(player);
                     }
                 }
