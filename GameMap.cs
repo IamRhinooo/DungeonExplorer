@@ -21,7 +21,7 @@ namespace DungeonExplorer
 
             var goblin = new Monsters("Goblin", 10, 5);
 
-            var room1 = new Room("testing room 1\n", null, rustySword, healthPotion);
+            var room1 = new Room("testing room 1\n", null);
             var room2 = new Room("testing room 2\n", goblin, rustySword, healthPotion);
             var room3 = new Room("testing room 3\n", null, healthPotion, steelSword);
             var room4 = new Room("testing room 4\n", null, steelSword);

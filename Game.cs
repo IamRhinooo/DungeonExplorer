@@ -133,6 +133,8 @@ namespace DungeonExplorer
                         Console.WriteLine("\nThere is no monster to attack in this room.\n");
                     }
                     break;
+                case "exit":
+                    break;
                 default:
                     Console.WriteLine("\nInvalid response, please check above!");
                     break;
@@ -145,6 +147,8 @@ namespace DungeonExplorer
 
             while (playing)
             {
+                Console.WriteLine("You wake up in a dark mysterious room. \nVarious sounds can be heard from up ahead with lots of danger close. \nWhat will you do here? \nGoodluck.\n");
+                Console.WriteLine(currentRoom.GetDescription());
                 Console.WriteLine("What would you like to do? (left/right/attack/stats/use/equip/exit)\n");
                 string input = Console.ReadLine();
                 input = input.ToLower();
@@ -153,7 +157,7 @@ namespace DungeonExplorer
                 // End of the game
                 if (input == "exit")
                 {
-                    Console.WriteLine("goodbye");
+                    Console.WriteLine("\nThank you for playing!\n");
                     playing = false;
                 }
             }
@@ -186,7 +190,7 @@ namespace DungeonExplorer
             {
                 if (player.EquippedWeapon != null)
                 {
-                    Console.WriteLine($"You have unequipped the {player.EquippedWeapon.Name}.");
+                    Console.WriteLine($"\nYou have unequipped the {player.EquippedWeapon.Name}.");
                     player.Attack -= player.EquippedWeapon.AttackPower; 
                     inventory.PickUpItem(player.EquippedWeapon);
                 }
@@ -198,7 +202,7 @@ namespace DungeonExplorer
             }
             else
             {
-                Console.WriteLine("Item not found in inventory.");
+                Console.WriteLine("\nItem not found in inventory.");
             }
         }
         private void UseItem()
@@ -232,7 +236,7 @@ namespace DungeonExplorer
             }
             else
             {
-                Console.WriteLine("Item not found in inventory.");
+                Console.WriteLine("\nItem not found in inventory.");
             }
         }
         public void Combat(Monsters monster)
@@ -267,10 +271,11 @@ namespace DungeonExplorer
                         UseItem();
                     }
                 }
-                else if (choice == "3")
-                {
-                    Console.WriteLine("good turn");
-                }
+                // Testing 
+                //else if (choice == "3")
+                //{
+                //    Console.WriteLine("good turn");
+                //}
                 else
                 {
                     Console.WriteLine("Invalid choice. Please choose again.");
@@ -296,61 +301,3 @@ namespace DungeonExplorer
         }
     }
 }
-
-//// Displays description for the room and the initial player stats
-//Console.WriteLine(currentRoom.GetDescription());
-//PlayerStats();
-
-//// Asks if they would like to pickup the health potion
-//Console.WriteLine("Would you like to pickup the health potion at the door? yes or no\n");
-//string response = Console.ReadLine();
-//response.ToLower();
-
-//// If the player picks up the potion, adds to inventory and displays the potion in inventory
-//if (response == "yes")
-//{
-//    inventory.PickUpItem("Health potion (50HP)");
-
-//    // Checks to see if the potion exists in the players inventory
-//    bool result = testing.IsItemInInventory(inventory, "Health potion (50HP)");
-//    Debug.Assert(result == true);
-
-//    Console.WriteLine("\nYou picked up the health potion");
-//    PlayerStats();
-//}
-//// If the players doesn't pickup the potion, it dissapears behind
-//else if (response == "no")
-//{
-//    Console.WriteLine("\nYou left the health potion behind");
-//}
-//else
-//{
-//    Console.WriteLine("\nYou left the health potion behind");
-//}
-
-//// If they pick it up, they are then asked if they want to use it
-//if (inventory.InventoryContents().Contains("Health potion (50HP)"))
-
-//// This asks the question to if they would like to use the potion
-//{
-//    Console.WriteLine("You have picked up the health potion. Would you like to use it? yes or no\n");
-//    string response2 = Console.ReadLine();
-//    response2.ToLower();
-
-//    // If they would like to use it, consumes the potion and adds 50 health to the player
-//    switch (response2)
-//    {
-//        case "yes":
-//            Console.WriteLine("\nYou have used the health potion");
-//            player.Health = player.Health + 50;
-//            inventory.RemoveItem("Health potion (50HP)");
-//            PlayerStats();
-//            break;
-//        case "no":
-//            Console.WriteLine("You left the item in your inventory");
-//            break;
-//        default:
-//            Console.WriteLine("You left the item in your inventory");
-//            break;
-//    }
-//
