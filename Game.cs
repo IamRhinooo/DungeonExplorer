@@ -302,7 +302,7 @@ namespace DungeonExplorer
 
                     if (currentRoom == gameMap.BossRoom)
                     {
-                        Console.WriteLine("\nCongratulations, you are free from the Chicken Jockey;s lair!");
+                        Console.WriteLine("\nCongratulations, you are free from the Chicken Jockey's lair!");
                         System.Environment.Exit(0);
                     }
 
