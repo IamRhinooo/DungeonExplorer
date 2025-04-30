@@ -16,12 +16,14 @@ namespace DungeonExplorer
         private Room currentRoom;
         private Testing testing;
         private Inventory inventory = new Inventory();
+        private GameMap gameMap;
         public Game(GameMap map)
         {
             // Initialisation of the game with one room and one player
             currentRoom = map.StartRoom;
-            player = new Player("Gerrard", 50, 10);
+            player = new Player("You", 50, 10);
             testing = new Testing();
+            gameMap = map;
         }
         public void Controls(string direction)
         {
@@ -30,7 +32,7 @@ namespace DungeonExplorer
                 case "left":
                     if (currentRoom.Monster != null)
                     {
-                        Console.WriteLine("You cannot leave the room while a monster is present. You must defeat it first.");
+                        Console.WriteLine("\nYou cannot leave the room while a monster is present. You must defeat it first.");
                         return;
                     }
                     if (currentRoom.LeftRoom != null)
@@ -72,7 +74,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        Console.WriteLine("\nYou can't go that way.");
+                        Console.WriteLine("\nYou can't go that way.\n");
                     }
                     break;
                 case "right":
@@ -120,7 +122,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        Console.WriteLine("\nYou can't go that way.");
+                        Console.WriteLine("\nYou can't go that way.\n");
                     }
                     break;
                 case "stats":
@@ -153,10 +155,10 @@ namespace DungeonExplorer
         {
             // Starts the game
             bool playing = true;
+            Console.WriteLine("You wake up in a dark mysterious room. \nVarious sounds can be heard from up ahead with lots of potential danger. \nWhat will you do here? \nGoodluck.\n");
 
             while (playing)
             {
-                Console.WriteLine("You wake up in a dark mysterious room. \nVarious sounds can be heard from up ahead with lots of danger close. \nWhat will you do here? \nGoodluck.\n");
                 Console.WriteLine(currentRoom.GetDescription());
                 Console.WriteLine("What would you like to do? (left/right/attack/stats/use/equip/exit)\n");
                 string input = Console.ReadLine();
@@ -188,7 +190,7 @@ namespace DungeonExplorer
                 Console.WriteLine("\nYou have no weapons in your inventory to equip.");
                 return;
             }
-            Console.WriteLine("\nWhich weapon would you like to equip? \n");
+            Console.WriteLine($"\nWhich weapon would you like to equip? Use \"Cancel\" to stop\n");
             foreach (var weapon in weapons)
             {
                 Console.WriteLine($"- {weapon.Name} - Attack Power: {weapon.AttackPower}\n");
@@ -209,6 +211,10 @@ namespace DungeonExplorer
                 player.EquippedWeapon = selectedWeapon;
                 player.Attack += selectedWeapon.AttackPower; 
             }
+            if (weaponName == "cancel")
+            {
+                Console.WriteLine("\nYou stuck with your current weapon.\n");
+            }
             else
             {
                 Console.WriteLine("\nItem not found in inventory.");
@@ -220,15 +226,15 @@ namespace DungeonExplorer
             var potions = inventory.GetPotions().ToList();
             if (potions.Count() == 0)
             {
-                Console.WriteLine("\nYou have no potions in your inventory to use.");
+                Console.WriteLine("\nYou have no potions in your inventory to use.\n");
                 return;
             }
-            Console.WriteLine("Your inventory contains the following potions: \n");
+            Console.WriteLine("\nYour inventory contains the following potions: \n");
             foreach (var potion in potions)
             {
                 Console.WriteLine($"- {potion.Name} - Healing Amount: {potion.Health}\n");
             }
-            Console.WriteLine("Which potion would you like to use? \n");
+            Console.WriteLine("Which potion would you like to consume? Use \"Cancel\" to stop\n");
             string potionName = Console.ReadLine();
             var selectedPotion = inventory.GetPotions().FirstOrDefault(p => p.Name.Equals(potionName, StringComparison.OrdinalIgnoreCase));
             if (selectedPotion != null)
@@ -239,7 +245,7 @@ namespace DungeonExplorer
 
                 if (player.Health > 100)
                 {
-                    player.Health = 100; // Cap the health at 100
+                    player.Health = 100;
                     Console.WriteLine("You have reached max health.");
                 }
             }
@@ -254,19 +260,18 @@ namespace DungeonExplorer
 
             while (player.Health > 0 && monster.Health > 0)
             {
-                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("What would you like to do? (1/2)");
                 Console.WriteLine("1. Attack");
-                Console.WriteLine("2. Use Potion");
+                Console.WriteLine("2. Use Potion\n");
 
                 string choice = Console.ReadLine();
                 if (choice == "1")
                 {
                     monster.Health -= player.Attack;
-                    Console.WriteLine($"You attack the {monster.Name} for {player.Attack} damage.");
+                    Console.WriteLine($"\nYou attack the {monster.Name} for {player.Attack} damage.");
                     if (monster.Health > 0)
                     {
-                        Console.WriteLine($"The {monster.Name} has {monster.Health} HP left.");
-                        monster.Attack(player);
+                        Console.WriteLine($"The {monster.Name} has {monster.Health} HP left.\n");
                     }
                 }
                 else if (choice == "2")
@@ -294,6 +299,13 @@ namespace DungeonExplorer
                 if (monster.Health <= 0)
                 {
                     Console.WriteLine($"\nYou have defeated the {monster.Name}!");
+
+                    if (currentRoom == gameMap.BossRoom)
+                    {
+                        Console.WriteLine("\nCongratulations, you are free from the Chicken Jockey;s lair!");
+                        System.Environment.Exit(0);
+                    }
+
                     currentRoom.Monster = null;
                     Console.WriteLine($"You have {player.Health} HP left.\n");
                 }

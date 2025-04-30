@@ -25,8 +25,8 @@ namespace DungeonExplorer
                 : "There are no items in this room.";
 
             var monsterDescription = Monster != null
-                ? $"A {Monster.Name} lies within this room.\n"
-                : "There are no monsters in this room.\n";
+                ? $"A {Monster.Name} lies within this room.\n\n-----\n"
+                : "There are no monsters in this room.\n\n-----\n";
 
             return description + "\n" + itemsDescription + "\n" + monsterDescription;
         }
