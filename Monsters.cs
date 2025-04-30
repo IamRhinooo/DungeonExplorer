@@ -12,6 +12,7 @@ namespace DungeonExplorer
         public int Health { get; set; }
         public int AttackPower { get; set; }
 
+        // Constructor for the Monsters class and allows the creation of monsters in the GameMap.cs
         public Monsters(string name, int health, int attackPower)
         {
             Name = name;
@@ -19,6 +20,7 @@ namespace DungeonExplorer
             AttackPower = attackPower;
         }
 
+        // Used for the combat for the monster against the player in Game.cs
         public void Attack(Player player)
         {
             Console.WriteLine($"{Name} attacks {player.Name} for {AttackPower} damage!");

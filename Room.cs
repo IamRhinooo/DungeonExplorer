@@ -12,12 +12,16 @@ namespace DungeonExplorer
         public List<Items> Items { get; set; }
         public Monsters Monster { get; set; }
 
+        // Constructor for the Room class and allows for the creation of rooms in the GameMap.cs 
+        // They can have optional monsters and numerous items in each room
         public Room(string description, Monsters monster = null, params Items[] items)
         {
             this.description = description;
             Monster = monster;
             Items = new List<Items>(items); 
         }
+        // Used to get the description of the current room
+        // Displays the items and monsters within the room 
         public string GetDescription()
         {
             var itemsDescription = Items != null && Items.Count > 0

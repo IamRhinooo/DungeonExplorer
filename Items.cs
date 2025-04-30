@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    public class Items
+    // An abstract class used to create the base for items
+    public abstract class Items
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,6 +18,7 @@ namespace DungeonExplorer
             Description = description;
         }
     }
+    // Inhibits from the abstract class Items and used for weapons
     public class Weapon : Items
     {
         public int AttackPower { get; set; }
@@ -29,6 +31,7 @@ namespace DungeonExplorer
             return Name;
         } 
     }
+    // Inhibits from the abstract class Items and used for potions
     public class Potion : Items
     {
         public int Health { get; set; }

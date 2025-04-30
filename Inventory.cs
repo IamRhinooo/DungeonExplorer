@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace DungeonExplorer
         public void PickUpItem(Items item)
         {
             inventory.Add(item);
+            // Debugging line to check if the item was added to inventory
+            Debug.Assert(inventory.Contains(item), "The item slipped out of your hands, it was not added to inventory.");
         }
         // Removes items from inventory when used
         public void RemoveItem(Items item)
@@ -25,12 +28,14 @@ namespace DungeonExplorer
         {
             return string.Join(", ", inventory.Select(i => i.Name));
         }
-        // Filters items in inventory by type - weapons
+        // Questions, Gets and returns items in inventory by type - weapons
+        // Questions are done via LINQ
         public IEnumerable<Weapon> GetWeapons()
         {
             return inventory.OfType<Weapon>();
         }
-        // Filters items in inventory by type - potions
+        // Questions, Gets and returns items in inventory by type - potions
+        // Questions are done via LINQ
         public IEnumerable<Potion> GetPotions()
         {
             return inventory.OfType<Potion>();

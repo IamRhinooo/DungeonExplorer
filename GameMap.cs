@@ -11,6 +11,9 @@ namespace DungeonExplorer
         public Room StartRoom { get; set; }
         public Room BossRoom { get; set; }
 
+        // Contains the map of the game and the rooms within it
+        // It also contains all of the items within the game, and the enemies
+        // These are all taken from the Monsters and Items classes
         public GameMap()
         {
             var rustySword = new Weapon("Rusty Sword", "ol' fashioned and sometimes reliable", 10);

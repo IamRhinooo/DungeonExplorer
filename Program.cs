@@ -9,6 +9,7 @@ namespace DungeonExplorer
     internal class Program
     {
         // Starts and ends the game
+        // GameMap is used to create and follow the path in GameMap.cs
         static void Main(string[] args)
         {
             GameMap map = new GameMap();

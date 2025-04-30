@@ -8,6 +8,8 @@ namespace DungeonExplorer
         public int Health { get; set; }
         public int Attack { get; set; }
         public Weapon EquippedWeapon { get; set; }
+
+        // Contains the players stats and equipped weapon
         public Player(string name, int health, int attack) 
         {
             Name = name;
